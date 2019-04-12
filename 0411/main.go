@@ -11,12 +11,14 @@ import (
 	"strings"
 )
 
+// Client is
 type Client struct {
 	baseURL string
 	token   string
 	HTTP    *http.Client
 }
 
+// NewClient is
 func NewClient(token string) *Client {
 	return &Client{
 		baseURL: "https://api.github.com",
@@ -25,6 +27,7 @@ func NewClient(token string) *Client {
 	}
 }
 
+// Do is
 func (c *Client) Do(m string, u string, query map[string]string) ([]byte, error) {
 	req, _ := http.NewRequest(m, u, nil)
 	req.Header.Add("Authorization", "token "+c.token)
@@ -57,6 +60,7 @@ func (c *Client) Do(m string, u string, query map[string]string) ([]byte, error)
 	return body, nil
 }
 
+// Create is
 func (c *Client) Create(slug string, title string, body string) (string, error) {
 	u := fmt.Sprintf("%s/repos/%s/issues", c.baseURL, slug)
 	res, err := c.Do(http.MethodPost, u, map[string]string{"title": title, "body": body})
@@ -66,15 +70,20 @@ func (c *Client) Create(slug string, title string, body string) (string, error) 
 	return string(res), nil
 }
 
-func (i *Client) Get(slug string, num int) (string, error) {
+// Get is
+func (c *Client) Get(slug string, num int) (string, error) {
 	// TODO
 	return "", nil
 }
-func (i *Client) Edit(slug string, num int) (string, error) {
+
+// Edit is
+func (c *Client) Edit(slug string, num int) (string, error) {
 	// TODO
 	return "", nil
 }
-func (i *Client) Close(slug string, num int) (string, error) {
+
+// Close is
+func (c *Client) Close(slug string, num int) (string, error) {
 	// TODO
 	return "", nil
 }
