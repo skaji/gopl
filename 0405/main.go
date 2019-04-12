@@ -7,7 +7,7 @@ func squish(s []string) []string {
 		return s
 	}
 	j := 0
-	for i := 0; i < len(s); i++ {
+	for i := 0; i < len(s) && j+1 < len(s); i++ {
 		if s[j] == s[j+1] {
 			copy(s[j:], s[j+1:])
 		} else {
@@ -19,7 +19,7 @@ func squish(s []string) []string {
 
 func main() {
 	squish([]string{})
-	s := []string{"a", "b", "b", "b", "b", "c", "c", "d", "e", "a", "a", "b"}
+	s := []string{"a"}
 	s = squish(s)
 	fmt.Println(s)
 }
