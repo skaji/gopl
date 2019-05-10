@@ -5,6 +5,9 @@ import (
 	"fmt"
 )
 
+// BITSIZE is
+const BITSIZE = 32 << (^uint(0) >> 63)
+
 // IntSet is
 type IntSet struct {
 	words []uint
@@ -12,13 +15,13 @@ type IntSet struct {
 
 // Has is
 func (s *IntSet) Has(x int) bool {
-	word, bit := x/64, uint(x%64)
+	word, bit := x/BITSIZE, uint(x%BITSIZE)
 	return word < len(s.words) && s.words[word]&(1<<bit) != 0
 }
 
 // Add is
 func (s *IntSet) Add(x int) {
-	word, bit := x/64, uint(x%64)
+	word, bit := x/BITSIZE, uint(x%BITSIZE)
 	for word >= len(s.words) {
 		s.words = append(s.words, 0)
 	}
@@ -43,12 +46,12 @@ func (s *IntSet) String() string {
 		if word == 0 {
 			continue
 		}
-		for j := 0; j < 64; j++ {
+		for j := 0; j < BITSIZE; j++ {
 			if word&(1<<uint(j)) != 0 {
 				if buf.Len() > len("{") {
 					buf.WriteByte(' ')
 				}
-				fmt.Fprintf(&buf, "%d", 64*i+j)
+				fmt.Fprintf(&buf, "%d", BITSIZE*i+j)
 			}
 		}
 	}
@@ -63,7 +66,7 @@ func (s *IntSet) Len() int {
 		if word == 0 {
 			continue
 		}
-		for j := 0; j < 64; j++ {
+		for j := 0; j < BITSIZE; j++ {
 			if word&(1<<uint(j)) != 0 {
 				num++
 			}
@@ -74,7 +77,7 @@ func (s *IntSet) Len() int {
 
 // Remove is
 func (s *IntSet) Remove(x int) {
-	word, bit := x/64, uint(x%64)
+	word, bit := x/BITSIZE, uint(x%BITSIZE)
 	if word >= len(s.words) {
 		return
 	}
@@ -139,9 +142,9 @@ func (s *IntSet) Elems() []int {
 		if word == 0 {
 			continue
 		}
-		for j := 0; j < 64; j++ {
+		for j := 0; j < BITSIZE; j++ {
 			if word&(1<<uint(j)) != 0 {
-				elems = append(elems, 64*i+j)
+				elems = append(elems, BITSIZE*i+j)
 			}
 		}
 	}
