@@ -36,9 +36,9 @@ func mirroredQuery() result {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 	responses := make(chan result, 3)
-	go func() { responses <- request(ctx, "http://www.yahoo.co.jp") }()
-	go func() { responses <- request(ctx, "http://www.google.co.jp") }()
-	go func() { responses <- request(ctx, "http://www.ikyu.com") }()
+	go func() { responses <- request(ctx, "https://www.yahoo.co.jp") }()
+	go func() { responses <- request(ctx, "https://www.google.co.jp") }()
+	go func() { responses <- request(ctx, "https://www.ikyu.com") }()
 
 	for i := 0; i < 3; i++ {
 		if res := <-responses; res.err == nil {
