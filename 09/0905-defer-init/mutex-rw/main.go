@@ -28,7 +28,9 @@ func loadImage(name string) Image {
 func Icon(name string) Image {
 	mu.RLock()
 	if icons != nil {
-		return icons[name]
+		icon := icons[name]
+		mu.RUnlock()
+		return icon
 	}
 	mu.RUnlock()
 
